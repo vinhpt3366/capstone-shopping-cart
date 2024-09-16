@@ -1,0 +1,3 @@
+-- Get all products
+URL: https://66d121c662816af9a4f2d21e.mockapi.io/api/v1/product
+METHOD: GET

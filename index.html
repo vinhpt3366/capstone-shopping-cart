@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f2edf3;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .role-button {
+            width: 200px;
+            height: 200px;
+            background-color: #333;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-button:hover {
+            transform: scale(1.05);
+            background-color: #444;
+        }
+
+        .role-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+        }
+
+        .role-description {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #000;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <a href="./admin/view/index.html">
+                <div class="role-button" id="adminButton">
+                    <div class="role-text">Admin</div>
+                </div>
+            </a>
+            <div class="role-description">Admin Page</div>
+        </div>
+        <div>
+            <a href="./store/view/index.html">
+                <div class="role-button" id="storeButton">
+                    <div class="role-text">Store</div>
+                </div>
+            </a>
+            <div class="role-description">Store Page</div>
+        </div>
+    </div>
+
+    <script>
+        const buttons = document.querySelectorAll('.role-button');
+        buttons.forEach(button => {
+            button.addEventListener('mouseover', () => {
+                button.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.5)';
+            });
+            button.addEventListener('mouseout', () => {
+                button.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>

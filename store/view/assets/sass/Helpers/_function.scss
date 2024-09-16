@@ -1,0 +1,35 @@
+// Convert px to rem
+@function rem($pixels, $context: $font-size-base) {
+    @return ($pixels / $context) * 1rem;
+}
+
+// Darken color
+@function darken-color($color, $percentage) {
+    @return darken($color, $percentage);
+}
+
+// Lighten color
+@function lighten-color($color, $percentage) {
+    @return lighten($color, $percentage);
+}
+
+// Calculate contrast color
+@function contrast-color($color, $dark: $dark-color, $light: $light-color) {
+    $color-brightness: (
+        (red($color) * 299) + (green($color) * 587) + (blue($color) * 114)) / 1000;
+    $light-color-brightness: (
+        (red($light) * 299) + (green($light) * 587) + (blue($light) * 114)) / 1000;
+
+    @if abs($color-brightness - $light-color-brightness)>50 {
+        @return $light;
+    }
+
+    @else {
+        @return $dark;
+    }
+}
+
+// Calculate spacing
+@function spacing($multiplier) {
+    @return $spacing-unit * $multiplier;
+}
