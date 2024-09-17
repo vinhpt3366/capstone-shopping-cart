@@ -1,0 +1,36 @@
+.modal.fade.right .modal-dialog {
+    transform: translate(100%, 0);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.fade.right.show .modal-dialog {
+    transform: none;
+}
+
+.modal-fullheight {
+    height: 100%;
+    margin: 0;
+}
+
+.modal-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    max-width: 100%;
+}
+
+.modal-right .modal-content {
+    height: 100%;
+}
+
+.modal-right .modal-body {
+    overflow-y: auto;
+}
+
+@media (max-width: 576px) {
+    .modal-right {
+        width: 100%;
+    }
+}
