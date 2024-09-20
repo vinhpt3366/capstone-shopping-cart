@@ -1,29 +1,37 @@
-import { renderListProducts, renderCart } from "./controller.js"
-import { CartItem, Product } from "./modelCartItems.js"
+import { renderListProducts, renderCart } from "./controller.js";
+import { CartItem, Product } from "./modelCartItems.js";
 
 const BASE_URL = "https://66d121c662816af9a4f2d21e.mockapi.io/api/v1/product";
 
-var products = {};
+var products = [];
 let fetchData = async () => {
     let res = await axios({
         url: BASE_URL,
         method: "GET",
     });
-    products = res.data
-    renderListProducts(products)
-    return products
-}
-console.log("🚀 [ products:", products)
+    products = res.data.map(item => new Product(
+        item.id,
+        item.name,
+        item.price,
+        item.screen,
+        item.backCamera,
+        item.frontCamera,
+        item.img,
+        item.desc,
+        item.type
+    ));
+    renderListProducts(products);
+    return products;
+};
 
-fetchData()
+console.log("🚀 [ products:", products);
+fetchData();
 
 var Cart = {};
 
 // Hàm để thêm sản phẩm vào giỏ hàng
 export const addToCart = (productId) => {
-    // Tìm sản phẩm theo productId
     const product = products.find((p) => p.id === productId);
-
     if (!product) {
         console.error("Product not found!");
         return;
@@ -33,11 +41,19 @@ export const addToCart = (productId) => {
     if (Cart[productId]) {
         Cart[productId].quantity += 1;
     } else {
-        // Thêm sản phẩm vào giỏ hàng với số lượng ban đầu là 1
-        Cart[productId] = {
-            ...product,
-            quantity: 1,
-        };
+        // Thêm sản phẩm vào giỏ hàng dưới dạng đối tượng CartItem với số lượng ban đầu là 1
+        Cart[productId] = new CartItem(
+            product.id,
+            product.name,
+            product.price,
+            product.screen,
+            product.backCamera,
+            product.frontCamera,
+            product.img,
+            product.desc,
+            product.type,
+            1 // Số lượng ban đầu là 1
+        );
     }
     // Thêm vào local storage
     var dataJson = JSON.stringify(Cart);
@@ -46,7 +62,7 @@ export const addToCart = (productId) => {
     // Hiển thị giỏ hàng trong console để kiểm tra
     console.log("Giỏ hàng hiện tại:", Cart);
     // Gọi hàm render để cập nhật giỏ hàng trên giao diện
-    alert("Thêm Thành Công")
+    alert("Thêm Thành Công");
     renderCart(Cart);
 };
 
@@ -56,7 +72,6 @@ if (dataJson !== null) {
     var savedCart = JSON.parse(dataJson);
     for (const productId in savedCart) {
         const item = savedCart[productId];
-        // Tạo đối tượng CartItem từ dữ liệu đã lưu
         Cart[productId] = new CartItem(
             item.id,
             item.name,
@@ -78,9 +93,19 @@ if (dataJson !== null) {
 const filterProducts = async (type) => {
     try {
         const response = await axios.get(BASE_URL);
-        const filteredProducts = response.data.filter(
-            (product) => product.type.toLowerCase() === type.toLowerCase()
-        );
+        const filteredProducts = response.data
+            .map(item => new Product(
+                item.id,
+                item.name,
+                item.price,
+                item.screen,
+                item.backCamera,
+                item.frontCamera,
+                item.img,
+                item.desc,
+                item.type
+            ))
+            .filter((product) => product.type.toLowerCase() === type.toLowerCase());
         renderListProducts(filteredProducts);
     } catch (error) {
         console.error("Error filtering products:", error);
@@ -101,12 +126,12 @@ document.getElementById("search").addEventListener("click", () => {
 // Hàm xóa item trong cart
 export const deleteItem = (itemID) => {
     delete Cart[itemID];
-    var dataJson = JSON.stringify(Cart)
-    localStorage.setItem("cartItems_JSON", dataJson)
+    var dataJson = JSON.stringify(Cart);
+    localStorage.setItem("cartItems_JSON", dataJson);
     renderCart(Cart);
-}
+};
 
-// tăng số lượng
+// Tăng số lượng
 export const increaseQuantity = (itemID) => {
     console.log(`Tăng số lượng sản phẩm với ID: ${itemID}`);
     Cart[itemID].quantity = Cart[itemID].quantity + 1;
@@ -117,12 +142,12 @@ export const increaseQuantity = (itemID) => {
     renderCart(Cart);
 };
 
-// giảm số lượng
+// Giảm số lượng
 export const decreaseQuantity = (itemID) => {
     console.log(`Giảm số lượng sản phẩm với ID: ${itemID}`);
     Cart[itemID].quantity = Cart[itemID].quantity - 1;
     if (Cart[itemID].quantity <= 0) {
-        deleteItem(itemID)
+        deleteItem(itemID);
     }
     // Thêm vào local storage
     var dataJson = JSON.stringify(Cart);
@@ -131,25 +156,25 @@ export const decreaseQuantity = (itemID) => {
     renderCart(Cart);
 };
 
-// làm rỗng giỏ hàng
-let emtyCart = () => {
+// Làm rỗng giỏ hàng
+let emptyCart = () => {
     Cart = {};
     var dataJson = JSON.stringify(Cart);
     console.log("📦 [dataJson:", dataJson);
     localStorage.setItem("cartItems_JSON", dataJson);
-    alert("Đã Làm Trống Giò Hàng")
-    renderCart(Cart)
-}
+    alert("Đã Làm Trống Giỏ Hàng");
+    renderCart(Cart);
+};
 
-// làm rỗng giỏ hàng bằng thanh toán
+// Làm rỗng giỏ hàng bằng thanh toán
 let checkout = () => {
     Cart = {};
     var dataJson = JSON.stringify(Cart);
     console.log("📦 [dataJson:", dataJson);
     localStorage.setItem("cartItems_JSON", dataJson);
-    alert("Thanh Toán Thành Công")
-    renderCart(Cart)
-}
+    alert("Thanh Toán Thành Công");
+    renderCart(Cart);
+};
 
-document.getElementById(`emptyCart`).addEventListener("click", () => emtyCart());
-document.getElementById(`checkout`).addEventListener("click", () => checkout());
+document.getElementById("emptyCart").addEventListener("click", () => emptyCart());
+document.getElementById("checkout").addEventListener("click", () => checkout());
