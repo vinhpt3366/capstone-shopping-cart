@@ -5,6 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Page</title>
+
+    <!-- toast -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"
         integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -12,6 +16,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" />
     <link rel="stylesheet" href="./css/modal.css" />
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="../../store/view/assets/css/main.css" />
+
 </head>
 
 <body>
@@ -50,7 +56,7 @@
 
     <div class="container py-5" id="content-wrap" style="min-height: 50vh;">
         <main role="main" class="mt-5">
-            <div class='d-flex justify-content-between mb-2 py-3 px-2 phoneBanner'>
+            <!-- <div class='d-flex justify-content-between mb-2 py-3 px-2 phoneBanner'>
                 <h3 class="text-light">Phone Management</h3>
                 <div class="text-right">
                     <button type="button" class="btn btn-banner" data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -58,15 +64,39 @@
                         <i class="fa-solid fa-circle-plus me-2"></i> Add Phone
                     </button>
                 </div>
+            </div> -->
+            <div class='phoneBanner p-3'>
+                <div class='row row-cols-1 row-cols-md-3 g-3 align-items-center'>
+                    <div class="col">
+                        <h3 class="text-light mb-0">Phone Management</h3>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search phones" id="searchInput" aria-label="Search phones">
+                            <button class="btn btn-outline-light" type="button" id="searchButton">
+                                <i class="fa-solid fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col text-md-end">
+                        <button type="button" class="btn btn-banner add-phone-btn w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#exampleModal" id="addPhoneForm">
+                            <i class="fa-solid fa-circle-plus me-2"></i> Add Phone
+                        </button>
+                    </div>
+                </div>
             </div>
-
+            
+                        
             <div class=" table-responsive">
                 <table class="table display" id="myTable">
                     <thead class="">
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Price</th>
+                            <th id="sort-btn">
+                                Price
+                                <span class="fa fa-sort"></span>
+                            </th>
                             <th>Photo</th>
                             <th>Discription</th>
                             <th><em class="fa fa-cog"></em> Action</th>
@@ -81,7 +111,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <header class="head-form mb-0">
-                            <h3 id="header-title">Phone Management</h3>
+                            <h3 id="header-title">Add New Phone</h3>
                         </header>
 
                         <!-- Modal body -->
@@ -192,7 +222,7 @@
                             <button type="button" class="btn" id="btnAddPhone">
                                 Add Phone
                             </button>
-                            <button id="btnUpdate" type="button" class="btn">
+                            <button id="btnUpdate" type="button" class="btn" style="display: none;"> 
                                 Update Phone
                             </button>
                             <button id="btnClose" type="button" class="btn btn-danger" data-bs-dismiss="modal">
@@ -328,7 +358,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
         integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+     <!-- toast -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" src="../controller/main.js"></script>
 
