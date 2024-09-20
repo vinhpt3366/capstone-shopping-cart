@@ -1,0 +1,33 @@
+@media (min-width: 768px) {
+    .add-phone-btn {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .phoneBanner h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .phoneBanner .input-group {
+        margin-bottom: 1rem;
+    }
+}
+
+.btn-banner {
+    white-space: nowrap;
+}
+
+.add-phone-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.add-phone-btn i {
+    flex-shrink: 0;
+}
