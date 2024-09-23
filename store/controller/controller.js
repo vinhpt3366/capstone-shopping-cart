@@ -3,9 +3,9 @@ import { CartItem, Product } from "./modelCartItems.js";
 
 // Hàm render danh sách sản phẩm, nhận vào mảng các đối tượng Product
 export const renderListProducts = (productsArr) => {
-    let contentHTML = "";
-    productsArr.forEach((product) => {
-        contentHTML += `
+  let contentHTML = "";
+  productsArr.forEach((product) => {
+    contentHTML += `
         <div class="col-12 col-sm-6 col-lg-3 mb-4">
           <div class="card shadow-sm h-100">
             <img src="${product.img}" alt="${product.name}" class="card-img-top mt-3" style="height: 100%; object-fit: cover;">
@@ -21,35 +21,48 @@ export const renderListProducts = (productsArr) => {
             </div>
           </div>
         </div>`;
-    });
+  });
 
-    // Thêm nội dung HTML vào phần tử có id 'tbodyPhone'
-    document.getElementById('tbodyPhone').querySelector('.row').innerHTML = contentHTML;
+  // Thêm nội dung HTML vào phần tử có id 'tbodyPhone'
+  document.getElementById('tbodyPhone').querySelector('.row').innerHTML = contentHTML;
 
-    // Gán sự kiện click cho từng nút "Thêm Vào Giỏ Hàng"
-    productsArr.forEach((product) => {
-        document.getElementById(`addToCart_${product.id}`).addEventListener("click", () => addToCart(product.id));
-    });
+  // Gán sự kiện click cho từng nút "Thêm Vào Giỏ Hàng"
+  productsArr.forEach((product) => {
+    document.getElementById(`addToCart_${product.id}`).addEventListener("click", () => addToCart(product.id));
+  });
 }
 
 // Hàm tính tổng giá trị giỏ hàng
 let calculateTotalPrice = (cart) => {
-    let total = 0;
-    // Duyệt qua từng sản phẩm trong giỏ hàng và tính tổng giá
-    for (let productId in cart) {
-        let product = cart[productId];
-        total += product.price * product.quantity;
-    }
-    console.log("🚀 [ calculateTotalPrice [ total:", total);
-    document.getElementById("total").innerHTML = "$" + total;
-    return total;
+  let total = 0;
+  // Duyệt qua từng sản phẩm trong giỏ hàng và tính tổng giá
+  for (let productId in cart) {
+    let product = cart[productId];
+    total += product.price * product.quantity;
+  }
+  console.log("🚀 [ calculateTotalPrice [ total:", total);
+  document.getElementById("total").innerHTML = "$" + total;
+  return total;
+}
+
+let calculateTotalQuantity = (cart) => {
+  let totalQuantity = 0;
+  // Duyệt qua từng sản phẩm trong giỏ hàng và tính tổng giá
+  for (let productQuantity in cart) {
+    let product = cart[productQuantity];
+    totalQuantity += product.quantity;
+  }
+  console.log("🚀 [ calculateTotalPrice [ total:", totalQuantity);
+  document.getElementById("cartCount").innerHTML = totalQuantity;
+  return totalQuantity;
 }
 
 // Hàm render giỏ hàng, nhận vào một đối tượng chứa các CartItem
 export const renderCart = (cartObj) => {
-    // Tạo bảng HTML cho giỏ hàng
-    calculateTotalPrice(cartObj);
-    let cartContentHTML = `
+  // Tạo bảng HTML cho giỏ hàng
+  calculateTotalPrice(cartObj);
+  calculateTotalQuantity(cartObj)
+  let cartContentHTML = `
       <table class="table w-100 text-black" style="text-align: center">
         <thead>
           <tr>
@@ -61,23 +74,23 @@ export const renderCart = (cartObj) => {
         </thead>
         <tbody>
     `;
-    // Chuyển đổi đối tượng giỏ hàng thành mảng
-    const cartArr = Object.values(cartObj);
-    // Tạo hàng cho từng sản phẩm trong giỏ hàng
-    cartArr.forEach(
-        ({
-            id,
-            name,
-            price,
-            screen,
-            backCamera,
-            frontCamera,
-            img,
-            desc,
-            type,
-            quantity
-        }) => {
-            cartContentHTML += `
+  // Chuyển đổi đối tượng giỏ hàng thành mảng
+  const cartArr = Object.values(cartObj);
+  // Tạo hàng cho từng sản phẩm trong giỏ hàng
+  cartArr.forEach(
+    ({
+      id,
+      name,
+      price,
+      screen,
+      backCamera,
+      frontCamera,
+      img,
+      desc,
+      type,
+      quantity
+    }) => {
+      cartContentHTML += `
           <tr class="border-bottom">
             <td class="p-4"><img src="${img}" style="width: 50px; height: 50px;" class="object-cover rounded-lg"/><span>${name}</span></td>
             <td class="p-4 d-flex align-items-center">
@@ -91,20 +104,20 @@ export const renderCart = (cartObj) => {
             </td>
           </tr>
         `;
-        }
-    );
-    // Đóng thẻ tbody và table
-    cartContentHTML += `
+    }
+  );
+  // Đóng thẻ tbody và table
+  cartContentHTML += `
         </tbody>
       </table>
     `;
-    // Thêm nội dung HTML vào phần tử với id 'cartItems'
-    document.getElementById("cartItems").innerHTML = cartContentHTML;
+  // Thêm nội dung HTML vào phần tử với id 'cartItems'
+  document.getElementById("cartItems").innerHTML = cartContentHTML;
 
-    // Gán sự kiện cho các nút xóa, tăng, giảm số lượng sản phẩm
-    cartArr.forEach(({ id }) => {
-        document.getElementById(`deleteItem${id}`).addEventListener("click", () => deleteItem(id));
-        document.getElementById(`decreaseQuantity${id}`).addEventListener("click", () => decreaseQuantity(id));
-        document.getElementById(`increaseQuantity${id}`).addEventListener("click", () => increaseQuantity(id));
-    });
+  // Gán sự kiện cho các nút xóa, tăng, giảm số lượng sản phẩm
+  cartArr.forEach(({ id }) => {
+    document.getElementById(`deleteItem${id}`).addEventListener("click", () => deleteItem(id));
+    document.getElementById(`decreaseQuantity${id}`).addEventListener("click", () => decreaseQuantity(id));
+    document.getElementById(`increaseQuantity${id}`).addEventListener("click", () => increaseQuantity(id));
+  });
 };
