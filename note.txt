@@ -1,3 +1,2 @@
--- Get all products
-URL: https://66d121c662816af9a4f2d21e.mockapi.io/api/v1/product
-METHOD: GET
+-- Task
+https://docs.google.com/spreadsheets/d/1ildox5_9jwk4XpgQufpkRQk9yG58boMTZr_Mrsrgu_w/edit?usp=sharing
